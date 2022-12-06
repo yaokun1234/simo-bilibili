@@ -9,6 +9,7 @@ import com.simo.dao.exception.ConditionException;
 import com.simo.dao.repository.UserFollowingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class UserFollowingService {
     private UserInfoService userInfoService;
 
 
+    @Transactional(rollbackFor = Exception.class)
     public void addUserFollowing(UserFollowing userFollowing){
         User dbUser = userService.getById(userFollowing.getFollowingId());
         if (dbUser == null) {
@@ -41,11 +43,10 @@ public class UserFollowingService {
         if (dbFollowingGroup == null) {
             throw new ConditionException("关注分组不存在");
         }
-        userFollowingRepository.deleteByUserIdAndFollowingId(userFollowing.getUserId(),userFollowing.getGroupId());
+        userFollowingRepository.deleteByUserIdAndFollowingId(userFollowing.getUserId(),userFollowing.getFollowingId());
         userFollowing.setCreateTime(new Date());
         userFollowing.setId(UUID.randomUUID().toString());
         userFollowingRepository.save(userFollowing);
-
     }
 
     // 第一步：获取关注的用户列表

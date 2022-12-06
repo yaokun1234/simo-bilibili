@@ -6,7 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.Instant;
+import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "t_user_moments")
@@ -26,9 +27,15 @@ public class UserMoment {
     private String contentId;
 
     @Column(name = "createTime")
-    private Instant createTime;
+    private Date createTime;
 
     @Column(name = "updateTime")
-    private Instant updateTime;
+    private Date updateTime;
+
+    public UserMoment() {
+        this.id = UUID.randomUUID().toString();
+        this.createTime = new Date();
+        this.updateTime = new Date();
+    }
 
 }

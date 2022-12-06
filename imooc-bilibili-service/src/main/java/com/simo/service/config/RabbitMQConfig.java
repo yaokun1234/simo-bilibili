@@ -33,7 +33,14 @@ public class RabbitMQConfig {
     private void momentsConsumer(String message){
         UserMoment userMoment = JSONObject.toJavaObject(JSONObject.parseObject(message), UserMoment.class);
         String userId = userMoment.getUserId();
-        List<UserFollowing> fanList = userFollowingService.getUserFans(userId);
+        List<UserFollowing> fanList;
+        try{
+            fanList = userFollowingService.getUserFans(userId);
+
+        }catch (Exception e){
+            System.out.println("++++++++++rabbitmq消费者，出现获取粉丝异常");
+            return;
+        }
         for(UserFollowing fan : fanList){
             String key = "subscribed-" + fan.getUserId();
             String subscribedListStr = redisTemplate.opsForValue().get(key);

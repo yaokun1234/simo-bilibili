@@ -10,13 +10,13 @@ import java.io.Serializable;
 @Data
 public class RespBean implements Serializable {
 
-    @ApiModelProperty(value = "响应状态码")
+    @ApiModelProperty(value = "响应状态码",required = true)
     private int code;
 
     @ApiModelProperty(value = "响应信息")
     private String msg;
 
-    @ApiModelProperty(value = "响应数据",required = false)
+    @ApiModelProperty(value = "响应数据")
     private Object data;
 
     private static final int SUCCESS = 200;

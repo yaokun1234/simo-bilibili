@@ -1,10 +1,14 @@
 package com.simo.test;
 
 import com.simo.ImoocBilibiliApp;
+import com.simo.dao.entity.auth.AuthRoleElementOperation;
+import com.simo.dao.repository.authRepository.AuthRoleElementOperationRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest(classes = ImoocBilibiliApp.class)
 public class Demo01 {
@@ -12,16 +16,14 @@ public class Demo01 {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private AuthRoleElementOperationRepository authRoleElementOperationRepository;
+
     @Test
     public void test01() {
-        for (int i = 0; i < 100; i++) {
-            rabbitTemplate.convertAndSend("hello","hello world");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
+        List<AuthRoleElementOperation> all = authRoleElementOperationRepository.findAll();
+        System.out.println(all);
     }
 
 
