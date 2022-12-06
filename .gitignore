@@ -26,6 +26,6 @@ hs_err_pid*
  **/mvnw
  **/mvnw.cmd
  **/.mvn
- **/target/
- .idea
-# !/.gitignore
+target/
+.idea
+!/.gitignore
