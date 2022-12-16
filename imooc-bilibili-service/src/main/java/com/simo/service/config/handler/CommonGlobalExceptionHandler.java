@@ -14,15 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CommonGlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(ConditionException.class)
     @ResponseBody
     public RespBean commonExceptionHandler(HttpServletRequest request, Exception e){
         String message = e.getMessage();
         if(e instanceof ConditionException){
             String code = ((ConditionException) e).getCode();
-            return new RespBean(Integer.getInteger(code),message);
+            return new RespBean(code,message);
         }else {
-            return new RespBean(500, message);
+            return new RespBean("500", message);
         }
     }
 }

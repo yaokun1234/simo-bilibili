@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
+
 
 /**
 * 刷新令牌记录表
@@ -34,12 +36,15 @@ public class RefreshToken implements Serializable {
     */
     
     @ApiModelProperty("刷新令牌")
-    private String refreshtoken;
+    private String refreshToken;
     /**
     * 创建时间
     */
     @ApiModelProperty("创建时间")
     private Date createtime;
 
-
+    public RefreshToken() {
+        this.id = UUID.randomUUID().toString();
+        this.createtime = new Date();
+    }
 }

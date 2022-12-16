@@ -16,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.interfaces.RSAPublicKey;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RestController
 @Api(description = "用户接口")
@@ -31,11 +32,11 @@ public class UserApi {
     @Autowired
     private UserSupport userSupport;
 
-    @GetMapping("rsa-pkey")
+    @GetMapping("/rsa-pks")
     @ApiOperation("获取RSA公钥")
     public RespBean getRsaPublicKey() throws Exception {
-        RSAPublicKey publicKey = RSAUtil.getPublicKey();
-        return RespBean.success(publicKey);
+        String publicKey = RSAUtil.getPublicKeyStr();
+        return RespBean.success("成功",publicKey);
     }
 
     //注册
@@ -48,7 +49,7 @@ public class UserApi {
         return RespBean.success("注册成功");
     }
 
-    @PostMapping("/login")
+    @PostMapping("/user-tokens")
     @ApiOperation("用户登陆")
     @Transactional
     public RespBean login(@RequestBody User user) throws Exception {
@@ -66,6 +67,38 @@ public class UserApi {
         }else{
             throw new ConditionException("UserId为空");
         }
+    }
+
+
+    @GetMapping("/user-dts")
+    public RespBean loginForDts(@RequestBody User user){
+        Map token = null;
+        try {
+            token = userService.loginForDts(user);
+        } catch (Exception e) {
+            throw new ConditionException("登陆异常");
+        }
+        return RespBean.success(token) ;
+    }
+
+    @DeleteMapping("/refresh-tokens")
+    public RespBean logout(HttpServletRequest request){
+        String refreshToken = request.getHeader("refreshToken");
+        String userId = userSupport.getCurrentUserId();
+        userService.logout(refreshToken, userId);
+        return RespBean.success();
+    }
+
+    @PostMapping("/access-tokens")
+    public RespBean refreshAccessToken(HttpServletRequest request) {
+        String refreshToken = request.getHeader("refreshToken");
+        String accessToken = null;
+        try {
+            accessToken = userService.refreshAccessToken(refreshToken);
+        } catch (Exception e) {
+            throw new ConditionException(e.getMessage());
+        }
+        return RespBean.success(accessToken);
     }
 
     @GetMapping("/user-support")

@@ -17,13 +17,13 @@ public class User {
     @ApiModelProperty(value = "唯一值id")
     private String id;
 
-    @ApiModelProperty(value = "手机号")
+    @ApiModelProperty(value = "手机号",required = true)
     private String phone;
 
     @ApiModelProperty(value = "邮箱")
     private String email;
 
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密码",required = true)
     private String password;
 
     @ApiModelProperty(value = "盐值")

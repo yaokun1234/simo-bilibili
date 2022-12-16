@@ -4,3 +4,20 @@ spring:
     url: jdbc:mysql://localhost:3306/simo-bilibili?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123456
+
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1GB
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+fdfs:
+  tracker-list: 106.14.174.139:22122
+  connect-timeout: 600
+  http.storage-addr: http://106.14.174.139:8888/group1/
+

@@ -39,4 +39,15 @@ public class TokenUtil {
             throw new ConditionException("非法用户Token");
         }
     }
+
+    public static String generateRefreshToken(String userId) throws Exception {
+        Algorithm algorithm = Algorithm.RSA256(RSAUtil.getPublicKey(), RSAUtil.getPrivateKey());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE,7);
+        return JWT.create().withKeyId(userId)
+                .withIssuer(ISSUER)
+                .withExpiresAt(calendar.getTime())
+                .sign(algorithm);
+    }
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class RespBean implements Serializable {
 
     @ApiModelProperty(value = "响应状态码",required = true)
-    private int code;
+    private String code;
 
     @ApiModelProperty(value = "响应信息")
     private String msg;
@@ -19,19 +19,19 @@ public class RespBean implements Serializable {
     @ApiModelProperty(value = "响应数据")
     private Object data;
 
-    private static final int SUCCESS = 200;
+    private static final String SUCCESS = "0";
 
-    private static final int ERROR = 500;
+    private static final String ERROR = "500";
 
     public RespBean(){
     }
 
-    public RespBean(int code, String msg){
+    public RespBean(String code, String msg){
         this.code = code;
         this.msg = msg;
     }
 
-    public RespBean(int code, String msg, Object data){
+    public RespBean(String code, String msg, Object data){
         this.code = code;
         this.msg = msg;
         if(data != null){
